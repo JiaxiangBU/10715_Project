@@ -1,8 +1,8 @@
 # Python
 import wikipedia
 from tqdm import tqdm
-hop = 2
-hop = input_dir = "wiki_graph/cat_edges%d.txt" % hop
+hop = 3
+input_dir = "wiki/cat_edges_%d.txt" % hop
 
 if input_dir == "":
     edges = []
@@ -51,6 +51,7 @@ else:
         edges.append((entity, cat))
         cats.append(cat)
     subcats = list(set(cats))
+    print("%d new categories to scrape" % len(subcats))
     for subcat in tqdm(subcats):
         try:
             data = wikipedia.page(subcat)
@@ -69,6 +70,6 @@ else:
             elif "webarchive" in cat.lower():
                 continue
             edges.append((subcat, "Category:%s" % cat))
-    output_file = open("wiki_graph/cat_edges%d.txt" % (hop + 1), "w")
+    output_file = open("wiki/cat_edges%d.txt" % (hop + 1), "w")
     for edge in edges:
         output_file.write("%s\t%s\n" % (edge[0], edge[1]))
